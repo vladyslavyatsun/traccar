@@ -15,30 +15,20 @@
  */
 package org.traccar.database;
 
-import java.io.StringReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import org.traccar.Context;
+import org.traccar.helper.Log;
+import org.traccar.model.MiscFormatter;
+
 import javax.json.Json;
 import javax.json.JsonReader;
 import javax.json.stream.JsonParsingException;
 import javax.sql.DataSource;
-import org.traccar.Context;
-import org.traccar.helper.Log;
-import org.traccar.model.MiscFormatter;
+import java.io.StringReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.*;
+import java.util.*;
+import java.util.Date;
 
 public final class QueryBuilder {
 
@@ -442,5 +432,4 @@ public final class QueryBuilder {
         }
         return 0;
     }
-
 }

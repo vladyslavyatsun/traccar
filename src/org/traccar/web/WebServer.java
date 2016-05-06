@@ -15,13 +15,6 @@
  */
 package org.traccar.web;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.net.InetSocketAddress;
-import javax.naming.InitialContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
-
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.SessionManager;
@@ -36,21 +29,16 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.traccar.Config;
-import org.traccar.api.AsyncSocketServlet;
-import org.traccar.api.CorsResponseFilter;
-import org.traccar.api.ObjectMapperProvider;
-import org.traccar.api.ResourceErrorHandler;
-import org.traccar.api.SecurityRequestFilter;
-import org.traccar.api.resource.CommandResource;
-import org.traccar.api.resource.DeviceResource;
-import org.traccar.api.resource.DevicePermissionResource;
-import org.traccar.api.resource.GroupPermissionResource;
-import org.traccar.api.resource.GroupResource;
-import org.traccar.api.resource.PositionResource;
-import org.traccar.api.resource.ServerResource;
-import org.traccar.api.resource.SessionResource;
-import org.traccar.api.resource.UserResource;
+import org.traccar.api.*;
+import org.traccar.api.resource.*;
 import org.traccar.helper.Log;
+
+import javax.naming.InitialContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.Writer;
+import java.net.InetSocketAddress;
 
 public class WebServer {
 
@@ -147,7 +135,7 @@ public class WebServer {
         resourceConfig.register(CorsResponseFilter.class);
         resourceConfig.registerClasses(ServerResource.class, SessionResource.class, CommandResource.class,
                 GroupPermissionResource.class, DevicePermissionResource.class, UserResource.class,
-                GroupResource.class, DeviceResource.class, PositionResource.class);
+                GroupResource.class, DeviceResource.class, PositionResource.class, EventsResource.class);
         servletHandler.addServlet(new ServletHolder(new ServletContainer(resourceConfig)), "/*");
 
         handlers.addHandler(servletHandler);

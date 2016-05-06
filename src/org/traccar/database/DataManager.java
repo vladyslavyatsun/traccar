@@ -16,23 +16,6 @@
 package org.traccar.database;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import java.io.File;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-
 import liquibase.Contexts;
 import liquibase.Liquibase;
 import liquibase.database.Database;
@@ -43,13 +26,18 @@ import liquibase.resource.ResourceAccessor;
 import org.traccar.Config;
 import org.traccar.Context;
 import org.traccar.helper.Log;
-import org.traccar.model.Device;
-import org.traccar.model.Group;
-import org.traccar.model.GroupPermission;
-import org.traccar.model.DevicePermission;
-import org.traccar.model.Position;
-import org.traccar.model.Server;
-import org.traccar.model.User;
+import org.traccar.model.*;
+
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import java.io.File;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class DataManager implements IdentityManager {
 
@@ -451,6 +439,22 @@ public class DataManager implements IdentityManager {
                 .setDate("from", from)
                 .setDate("to", to)
                 .executeQuery(Position.class);
+    }
+
+    public Collection<DeviceEvent> getEvent(long deviceId,int eventCode, Date from, Date to) throws SQLException {
+        return QueryBuilder.create(dataSource, getQuery("database.selectEvent"))
+                .setLong("deviceId", deviceId)
+                .setInteger("eventCode", eventCode)
+                .setDate("from", from)
+                .setDate("to", to)
+                .executeQuery(DeviceEvent.class);
+    }
+
+    public void addEvent(DeviceEvent event) throws SQLException {
+        event.setId(QueryBuilder.create(dataSource, getQuery("database.insertEvent"), true)
+                //.setDate("now", new Date())
+                .setObject(event)
+                .executeUpdate());
     }
 
     public void addPosition(Position position) throws SQLException {

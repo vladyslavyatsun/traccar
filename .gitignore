@@ -1,4 +1,6 @@
 target
+out
+src/META-INF/
 nbactions.xml
 .classpath
 .project

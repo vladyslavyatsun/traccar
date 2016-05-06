@@ -5,7 +5,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="author" id="changelog-treklab">
+    <changeSet author="author" id="changelog-treklab-1.1">
+
+        <addColumn tableName="devices">
+            <column name="maxSpeed" type="INT">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+
 
         <createTable tableName="events">
             <column name="id" type="INT" autoIncrement="true">
@@ -26,7 +33,6 @@
         </createTable>
 
         <addForeignKeyConstraint baseTableName="events" baseColumnNames="deviceid" constraintName="fk_event_deviceid" referencedTableName="devices" referencedColumnNames="id" onDelete="CASCADE" />
-
 
     </changeSet>
 </databaseChangeLog>
